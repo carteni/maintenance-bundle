@@ -1,0 +1,35 @@
+{
+    "name": "carteni/maintenance-bundle",
+    "type": "symfony-bundle",
+    "description": "",
+    "keywords": [],
+    "require": {
+        "php": "^5.5.9 || ^7.0",
+        "symfony/framework-bundle": "^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^1.11",
+        "symfony/console": "^3.2",
+        "symfony/phpunit-bridge": "^3.2",
+        "phpunit/phpunit": "~4.8|~5.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Francesco Cartenì",
+            "email": "info@multimediaexperiencestudio.it"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Mes\\Misc\\MaintenanceBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "minimum-stability": "stable"
+}

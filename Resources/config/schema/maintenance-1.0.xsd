@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://multimediaexperiencestudio.it/schema/dic/maintenance"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://multimediaexperiencestudio.it/schema/dic/maintenance"
+            elementFormDefault="qualified">
+
+    <xsd:element name="config" type="config" />
+
+    <xsd:complexType name="config">
+        <xsd:sequence>
+            <xsd:element name="ip_allowed" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+
+        <xsd:attribute name="enabled" type="xsd:boolean" />
+        <xsd:attribute name="controller" type="xsd:string" />
+    </xsd:complexType>
+
+</xsd:schema>
