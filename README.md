@@ -4,6 +4,8 @@
 
 Show your site in maintenance mode. Allow to see the site _under maintenance_ to a list of given IPs.
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/dd91a63a-bf2b-4db3-b0ad-262f3f6b7dd2/mini.png)](https://insight.sensiolabs.com/projects/dd91a63a-bf2b-4db3-b0ad-262f3f6b7dd2)
+
 Installation
 ------------
 
