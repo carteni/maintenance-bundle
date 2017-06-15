@@ -33,10 +33,10 @@ class MaintenanceListener
     private $ips;
 
     /** @var bool */
-    private $allowed;
+    private $allowed = false;
 
     /** @var bool */
-    private $profiler_allowed;
+    private $profiler_allowed = false;
 
     /** @var int */
     private $statusCode = Response::HTTP_OK;
@@ -54,9 +54,6 @@ class MaintenanceListener
         $this->matcher = $matcher;
         $this->debug = $debug;
         $this->ips = $ips;
-
-        $this->allowed = false;
-        $this->profiler_allowed = false;
     }
 
     /**
