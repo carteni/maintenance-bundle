@@ -43,7 +43,7 @@ class Configuration implements ConfigurationInterface
                     ->validate()
                     ->always(function ($controller) {
                         try {
-                            list($service, $method) = explode(':', $controller, 2);
+                            explode(':', $controller, 2);
 
                             return $controller;
                         } catch (\Exception $e) {

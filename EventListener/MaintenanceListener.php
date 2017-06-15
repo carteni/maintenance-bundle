@@ -54,6 +54,7 @@ class MaintenanceListener
         $this->matcher = $matcher;
         $this->debug = $debug;
         $this->ips = $ips;
+        $this->allowed = $this->profiler_allowed = false;
     }
 
     /**
