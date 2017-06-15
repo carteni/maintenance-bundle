@@ -32,12 +32,6 @@ class MaintenanceListener
     /** @var array */
     private $ips;
 
-    /** @var bool */
-    private $allowed = false;
-
-    /** @var bool */
-    private $profiler_allowed = false;
-
     /** @var int */
     private $statusCode = Response::HTTP_OK;
 
@@ -63,11 +57,11 @@ class MaintenanceListener
     {
         $request = $event->getRequest();
 
-        if (($this->profiler_allowed = ($this->debug && preg_match('/(_wdt|_profiler|_error)/', $request->getPathInfo())))) {
+        if ($this->debug && preg_match('/(_wdt|_profiler|_error)/', $request->getPathInfo())) {
             return;
         }
 
-        if ($this->allowed = (0 < count($this->ips) && $this->matcher->matches($request))) {
+        if ((0 < count($this->ips) && $this->matcher->matches($request))) {
             return;
         }
 
