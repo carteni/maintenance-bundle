@@ -11,43 +11,39 @@
 
 namespace Mes\Misc\MaintenanceBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 /**
  * Class MesMaintenanceExtension.
  */
-class MesMaintenanceExtension extends Extension
+class MesMaintenanceExtension extends ConfigurableExtension
 {
     /**
-     * Loads a specific configuration.
-     *
-     * @param array            $configs   An array of configuration values
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @param array            $mergedConfig
+     * @param ContainerBuilder $container
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
-        // Configuration
-        $config = $this->processConfigs($configs);
-
-        if ($this->isConfigEnabled($container, $config)) {
-            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-            $loader->load('services.xml');
-
-            $container->setParameter('mes_maintenance.ips_allowed', $config['ips_allowed']);
-            $container->setParameter('mes_maintenance.debug', $container->getParameter('kernel.debug'));
-
-            $container->findDefinition('mes_maintenance.controller_listener')
-                      ->replaceArgument(0, $this->createController($config['controller']))
-                      ->replaceArgument(1, $this->createRequestMatcher($container, null, null, null, $config['ips_allowed']))
-                      ->replaceArgument(3, $config['ips_allowed']);
+        if (!$this->isConfigEnabled($container, $mergedConfig)) {
+            return;
         }
+
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
+
+        $container->setParameter('mes_maintenance.ips_allowed', $mergedConfig['ips_allowed']);
+        $container->setParameter('mes_maintenance.debug', $container->getParameter('kernel.debug'));
+
+        $container->findDefinition('mes_maintenance.controller_listener')
+            ->replaceArgument(0, $this->createController($mergedConfig['controller']))
+            ->replaceArgument(1, $this->createRequestMatcher($container, null, null, null, $mergedConfig['ips_allowed']))
+            ->replaceArgument(3, $mergedConfig['ips_allowed']);
     }
 
     public function getNamespace()
@@ -58,19 +54,6 @@ class MesMaintenanceExtension extends Extension
     public function getXsdValidationBasePath()
     {
         return __DIR__.'/../Resources/config/schema';
-    }
-
-    /**
-     * @param $configs
-     *
-     * @return array
-     */
-    private function processConfigs($configs)
-    {
-        $configuration = new Configuration();
-        $processor = new Processor();
-
-        return $processor->processConfiguration($configuration, $configs);
     }
 
     /**
